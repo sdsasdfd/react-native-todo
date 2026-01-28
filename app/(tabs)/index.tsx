@@ -26,6 +26,7 @@ export default function Index() {
 
   const todos = useQuery(api.todos.getTodos);
   const toggleTodo = useMutation(api.todos.toggleTodo);
+  const deleteTodo = useMutation(api.todos.deleteTodo);
 
   const isLoading = todos === undefined;
 
@@ -38,6 +39,17 @@ export default function Index() {
       console.log("Error toggling todo", error);
       Alert.alert("Error", "Failed to toggle todo");
     }
+  };
+
+  const handleDeleteTodo = async (id: Id<"todos">) => {
+    Alert.alert("Delete Todo", "Are you sure you want to delete this todo?", [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: () => deleteTodo({ id }),
+      },
+    ]);
   };
 
   const renderTodoItem = ({ item }: { item: Todo }) => {
@@ -72,6 +84,43 @@ export default function Index() {
               )}
             </LinearGradient>
           </TouchableOpacity>
+
+          <View style={homeStyles.todoTextContainer}>
+            <Text
+              style={[
+                homeStyles.todoText,
+                item.isCompleted && {
+                  textDecorationLine: "line-through",
+                  color: colors.textMuted,
+                  opacity: 0.6,
+                },
+              ]}
+            >
+              {item.text}
+            </Text>
+
+            <View style={homeStyles.todoActions}>
+              <TouchableOpacity activeOpacity={0.8}>
+                <LinearGradient
+                  colors={colors.gradients.warning}
+                  style={homeStyles.actionButton}
+                >
+                  <Ionicons name="pencil" color={"#fff"} size={14} />
+                </LinearGradient>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => handleDeleteTodo(item._id)}
+                activeOpacity={0.8}
+              >
+                <LinearGradient
+                  colors={colors.gradients.danger}
+                  style={homeStyles.actionButton}
+                >
+                  <Ionicons name="trash" color={"#fff"} size={14} />
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+          </View>
         </LinearGradient>
       </View>
     );

@@ -31,4 +31,33 @@ export const toggleTodo = mutation({
   },
 });
 
+export const deleteTodo = mutation({
+  args: { id: v.id("todos") },
+  handler: async (ctx, args) => {
+    await ctx.db.delete(args.id);
+  },
+});
 
+export const clearAllTodos = mutation({
+  handler: async (ctx) => {
+    const todos = await ctx.db.query("todos").collect();
+
+    // Delete all todos
+    for (const todo of todos) {
+      await ctx.db.delete(todo._id);
+    }
+    return { deleteCount: todos.length };
+  },
+});
+
+export const updateTodo = mutation({
+  args: {
+    id: v.id("todos"),
+    text: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.id, {
+      text: args.text,
+    });
+  },
+});
