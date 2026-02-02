@@ -25,7 +25,9 @@ const DangerZone = () => {
           onPress: async () => {
             try {
               const result = await clearAllTodos();
-              Alert.alert("App Reset", "Successfully reset app");
+              Alert.alert(
+                `App Reset", "Successfully deleted ${result.deleteCount} todo${result.deleteCount === 1 ? "" : "s"}. Your app has been reset.`
+              );
             } catch (error) {
               console.log("Error deleting all todos", error);
               Alert.alert("Error", "Failed to reset app");
