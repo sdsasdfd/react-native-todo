@@ -26,7 +26,7 @@ export default function Index() {
   const [editText, setEditText] = useState("");
   const [editingId, setEditingId] = useState<Id<"todos"> | null>(null);
 
-  const { toggleDarkMode, colors } = useTheme();
+  const { colors } = useTheme();
   const homeStyles = createHomeStyles(colors);
 
   const todos = useQuery(api.todos.getTodos);
@@ -210,9 +210,6 @@ export default function Index() {
           style={homeStyles.todoList}
           contentContainerStyle={homeStyles.todoListContent}
         />
-        <TouchableOpacity onPress={toggleDarkMode}>
-          <Text> Press here!</Text>
-        </TouchableOpacity>
       </SafeAreaView>
     </LinearGradient>
   );
