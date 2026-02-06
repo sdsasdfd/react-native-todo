@@ -18,6 +18,7 @@ const Header = () => {
     : 0;
 
   const totalCount = todos ? todos.length : 0;
+  console.log(completedCount, totalCount);
 
   const progressPercentage =
     totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
@@ -49,7 +50,9 @@ const Header = () => {
               ]}
             />
           </View>
-          <Text style={homeStyles.progressText}>{Math.round(progressPercentage)}%</Text>
+          <Text style={homeStyles.progressText}>
+            {Math.round(progressPercentage)}%
+          </Text>
         </View>
       </View>
     </View>
